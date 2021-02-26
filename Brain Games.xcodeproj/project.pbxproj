@@ -11,6 +11,8 @@
 		D8F5B76C25E727FF0090ACC0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F5B76B25E727FF0090ACC0 /* ContentView.swift */; };
 		D8F5B76E25E728020090ACC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8F5B76D25E728020090ACC0 /* Assets.xcassets */; };
 		D8F5B77125E728020090ACC0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8F5B77025E728020090ACC0 /* Preview Assets.xcassets */; };
+		D8F5B77A25E734930090ACC0 /* GlobalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F5B77925E734930090ACC0 /* GlobalState.swift */; };
+		D8F5B78125E89D550090ACC0 /* WordKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F5B78025E89D550090ACC0 /* WordKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		D8F5B76D25E728020090ACC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8F5B77025E728020090ACC0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D8F5B77225E728020090ACC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D8F5B77925E734930090ACC0 /* GlobalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalState.swift; sourceTree = "<group>"; };
+		D8F5B78025E89D550090ACC0 /* WordKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				D8F5B76D25E728020090ACC0 /* Assets.xcassets */,
 				D8F5B77225E728020090ACC0 /* Info.plist */,
 				D8F5B76F25E728020090ACC0 /* Preview Content */,
+				D8F5B77925E734930090ACC0 /* GlobalState.swift */,
+				D8F5B78025E89D550090ACC0 /* WordKey.swift */,
 			);
 			path = "Brain Games";
 			sourceTree = "<group>";
@@ -139,7 +145,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8F5B76C25E727FF0090ACC0 /* ContentView.swift in Sources */,
+				D8F5B78125E89D550090ACC0 /* WordKey.swift in Sources */,
 				D8F5B76A25E727FF0090ACC0 /* Brain_GamesApp.swift in Sources */,
+				D8F5B77A25E734930090ACC0 /* GlobalState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
