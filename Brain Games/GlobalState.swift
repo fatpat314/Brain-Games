@@ -6,46 +6,94 @@
 //
 
 import Foundation
+import SwiftUI
 
 class GlobalState: ObservableObject {
     @Published var word_color = ""
-    @Published var displayWord: String = "hello"
-//    var number = 0
+    @Published var displayWordTop: String = ""
+    @Published var displayWordBottom: String = ""
+    @Published var displayColorTop: String = "blue"
+    
+    var correctAnswer: String = ""
     
 //    func randomNumber() -> Int{
 //    let number = Int.random(in: 0..<8)
 //        return number
 //    }
+
     
     enum wordColors: Int{
-        case blue = 1
-        case green = 2
-        case yellow = 3
-        case orange = 4
-        case red = 5
-        case purple = 6
+        case blue = 0
+        case green = 1
+        case yellow = 2
+        case orange = 3
+        case red = 4
+        case purple = 5
+    }
+    
+    func changeBkColor(color: Int) -> Color{
+        print(color)
+        switch color{
+            case 0:
+                correctAnswer = "blue"
+                return Color.blue;
+            case 1:
+                correctAnswer = "green"
+                return Color.green;
+            case 2:
+                correctAnswer = "yellow"
+                return Color.yellow;
+            case 3:
+                correctAnswer = "orange"
+                return Color.orange;
+            case 4:
+                correctAnswer = "red"
+                return Color.red
+            case 5:
+                correctAnswer = "purple"
+                return Color.purple
+        default:
+            break
+        }
+        return Color.blue
     }
     
     func wordChoice(){
-        let number = Int.random(in: 0..<8)
-        switch number{
+        let numberTop = Int.random(in: 1..<6)
+        let numberBottom = Int.random(in: 1..<6)
+        switch numberTop{
         case 1:
-            displayWord = "blue"
+            displayWordTop = "blue"
         case 2:
-            displayWord = "green"
+            displayWordTop = "green"
         case 3:
-            displayWord = "yellow"
+            displayWordTop = "yellow"
         case 4:
-            displayWord = "orange"
+            displayWordTop = "orange"
         case 5:
-            displayWord = "red"
+            displayWordTop = "red"
         case 6:
-            displayWord = "purple"
+            displayWordTop = "purple"
+        default:
+            break
+        }
+        switch numberBottom{
+        case 1:
+            displayWordBottom = "blue"
+        case 2:
+            displayWordBottom = "green"
+        case 3:
+            displayWordBottom = "yellow"
+        case 4:
+            displayWordBottom = "orange"
+        case 5:
+            displayWordBottom = "red"
+        case 6:
+            displayWordBottom = "purple"
         default:
             break
         }
     }
-    
 
     func changing_colors() {
         enum choices{

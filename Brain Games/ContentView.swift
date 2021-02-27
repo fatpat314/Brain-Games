@@ -29,35 +29,71 @@ struct ContentView: View {
         }
     }
 }
+//func changeBkColor(color: Int) -> Color
+//{
+//    if(color == 1)
+//    {
+//        return Color.red;
+//    }
+//    else if(color == 2)
+//    {
+//        return Color.green;
+//    }
+//    else if(color == 3)
+//    {
+//        return Color.blue;
+//    }else{
+//        return Color.yellow
+//    }
+//}
 
 struct GameView: View {
     @EnvironmentObject var env: GlobalState
+    @State var color1 = Int.random(in: 0..<6)
+    @State var color2 = Int.random(in: 0..<6)
     var body: some View {
         Text("Your games goes here")
             .navigationBarTitle("Level 1", displayMode: .inline)
             VStack(spacing: 6){
                 HStack{
-                    Text(env.displayWord)
+                    Text(env.displayWordTop)
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: 200, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 70, maxHeight: 100, alignment: .center)
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.green)
+                        .foregroundColor(env.changeBkColor(color: self.color1))
                         .padding(8)
+                        .onAppear{
+                            env.wordChoice()
+                        }
                 }.background(Color.gray)
                 HStack{
-                    Text(env.displayWord)
+                    Text(env.displayWordBottom)
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: 200, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 70, maxHeight: 100, alignment: .center)
-                        .foregroundColor(.red)
+                        .foregroundColor(env.changeBkColor(color: self.color2))
                         .padding(8)
+                        .onAppear{
+                            env.wordChoice()
+                        }
                 }.background(Color.gray)
                 HStack{
                     Button(action: {
+//                       Still got to figure out the scoring logic, but its something like this:
+//                        if the display word == correct answer, add ten points
+                        print("correct answer", env.correctAnswer)
+                        print("TOP", env.displayWordTop)
+                        if env.displayWordTop == env.correctAnswer{
+                            print("TEN POINTS TO GRIFANDOR")
+                        }
                         env.wordChoice()
+                        color1 = Int.random(in: 0..<6)
+                        color2 = Int.random(in: 0..<6)
                     }, label: {
                         Text("YES")
                     }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .leading)
                     
                     Button(action: {
                         env.wordChoice()
+                        color1 = Int.random(in: 0..<6)
+                        color2 = Int.random(in: 0..<6)
                     }, label: {
                         Text("NO")
                     }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .trailing)
