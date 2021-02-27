@@ -13,22 +13,30 @@ class GlobalState: ObservableObject {
     @Published var displayWordTop: String = ""
     @Published var displayWordBottom: String = ""
     @Published var displayColorTop: String = "blue"
+    @Published var points: Int = 0
     
     var correctAnswer: String = ""
     
-//    func randomNumber() -> Int{
-//    let number = Int.random(in: 0..<8)
-//        return number
-//    }
-
+    func correctAnswerIsYes(){
+        if displayWordTop == correctAnswer{
+            print("winner")
+            points += 10
+        }else{
+            print("loser")
+            points -= 10
+        }
+        print(displayWordTop, correctAnswer)
+    }
     
-    enum wordColors: Int{
-        case blue = 0
-        case green = 1
-        case yellow = 2
-        case orange = 3
-        case red = 4
-        case purple = 5
+    func correctAnswerIsNo(){
+        if displayWordTop != correctAnswer{
+            print("Winner")
+            points += 10
+        }else{
+            print("Loser")
+            points -= 10
+        }
+        print(displayWordTop, correctAnswer)
     }
     
     func changeBkColor(color: Int) -> Color{
@@ -92,17 +100,6 @@ class GlobalState: ObservableObject {
             displayWordBottom = "purple"
         default:
             break
-        }
-    }
-
-    func changing_colors() {
-        enum choices{
-            case red
-            case orange
-            case yellow
-            case green
-            case blue
-            case purple
         }
     }
 }

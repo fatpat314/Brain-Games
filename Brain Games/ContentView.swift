@@ -20,7 +20,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             VStack{
-                Text("Does the text of first word matches the color in the second word.").multilineTextAlignment(.center)
+                Text("Does the text of first word match the color in the second word.").multilineTextAlignment(.center)
                 NavigationLink(destination: GameView().environmentObject(GlobalState())){
                     Text("Start Game")
                         .navigationBarTitle("Color Game")
@@ -51,8 +51,24 @@ struct GameView: View {
     @EnvironmentObject var env: GlobalState
     @State var color1 = Int.random(in: 0..<6)
     @State var color2 = Int.random(in: 0..<6)
+    
+    @State private var timeRemaining = 60
+    let timer = Timer.publish(every: 1, on: .main, in:
+                                .common).autoconnect()
+    
     var body: some View {
-        Text("Your games goes here")
+        var points = env.points
+        Text("Time: \(timeRemaining)")
+            .font(.largeTitle)
+            .foregroundColor(.black)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(env.changeBkColor(color: self.color1))
+                    .opacity(0.75)
+            )
+        Text("Points: \(points)")
             .navigationBarTitle("Level 1", displayMode: .inline)
             VStack(spacing: 6){
                 HStack{
@@ -78,11 +94,7 @@ struct GameView: View {
                     Button(action: {
 //                       Still got to figure out the scoring logic, but its something like this:
 //                        if the display word == correct answer, add ten points
-                        print("correct answer", env.correctAnswer)
-                        print("TOP", env.displayWordTop)
-                        if env.displayWordTop == env.correctAnswer{
-                            print("TEN POINTS TO GRIFANDOR")
-                        }
+                        env.correctAnswerIsYes()
                         env.wordChoice()
                         color1 = Int.random(in: 0..<6)
                         color2 = Int.random(in: 0..<6)
@@ -91,12 +103,21 @@ struct GameView: View {
                     }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .leading)
                     
                     Button(action: {
+                        env.correctAnswerIsNo()
                         env.wordChoice()
                         color1 = Int.random(in: 0..<6)
                         color2 = Int.random(in: 0..<6)
                     }, label: {
                         Text("NO")
                     }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .trailing)
+                }
+            }
+            .onReceive(timer) { time in
+                if self.timeRemaining > 0 {
+                    self.timeRemaining -= 1
+                }else if self.timeRemaining == 0{
+                    ContentView().environmentObject(GlobalState())
+                    points = 0
                 }
             }
     }
