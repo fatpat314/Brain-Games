@@ -14,8 +14,10 @@ class GlobalState: ObservableObject {
     @Published var displayWordBottom: String = ""
     @Published var displayColorTop: String = "blue"
     @Published var points: Int = 0
+    @Published var latestPoints: Int = 0
     
     var correctAnswer: String = ""
+
     
     func correctAnswerIsYes(){
         if displayWordTop == correctAnswer{
@@ -37,6 +39,11 @@ class GlobalState: ObservableObject {
             points -= 10
         }
         print(displayWordTop, correctAnswer)
+    }
+    
+    func pointsReset(){
+        latestPoints = points
+        points = 0
     }
     
     func changeBkColor(color: Int) -> Color{

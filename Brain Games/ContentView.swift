@@ -15,49 +15,46 @@ struct HomeView: View{
     }
 }
 
+
+
 struct ContentView: View {
-//    @EnvironmentObject var env: GlobalState
+    @EnvironmentObject var env: GlobalState
+    @State private var isActive : Bool = false
+    
     var body: some View {
         NavigationView{
             VStack{
                 Text("Does the text of first word match the color in the second word.").multilineTextAlignment(.center)
-                NavigationLink(destination: GameView().environmentObject(GlobalState())){
-                    Text("Start Game")
+                NavigationLink(destination: GameView().environmentObject(GlobalState()), isActive: $isActive){
+                    Text("")
                         .navigationBarTitle("Color Game")
                 }
+                Button("Start Game"){
+                    self.isActive = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
+                        self.isActive = false
+                    }
+                }
+                
             }
         }
     }
 }
-//func changeBkColor(color: Int) -> Color
-//{
-//    if(color == 1)
-//    {
-//        return Color.red;
-//    }
-//    else if(color == 2)
-//    {
-//        return Color.green;
-//    }
-//    else if(color == 3)
-//    {
-//        return Color.blue;
-//    }else{
-//        return Color.yellow
-//    }
-//}
 
 struct GameView: View {
+    
     @EnvironmentObject var env: GlobalState
     @State var color1 = Int.random(in: 0..<6)
     @State var color2 = Int.random(in: 0..<6)
+    @State private var timeRemaining = 10
     
-    @State private var timeRemaining = 60
+    @State var isActive: Bool = false
+    
     let timer = Timer.publish(every: 1, on: .main, in:
                                 .common).autoconnect()
     
     var body: some View {
-        var points = env.points
+        let points = env.points
         Text("Time: \(timeRemaining)")
             .font(.largeTitle)
             .foregroundColor(.black)
@@ -92,8 +89,6 @@ struct GameView: View {
                 }.background(Color.gray)
                 HStack{
                     Button(action: {
-//                       Still got to figure out the scoring logic, but its something like this:
-//                        if the display word == correct answer, add ten points
                         env.correctAnswerIsYes()
                         env.wordChoice()
                         color1 = Int.random(in: 0..<6)
@@ -115,43 +110,17 @@ struct GameView: View {
             .onReceive(timer) { time in
                 if self.timeRemaining > 0 {
                     self.timeRemaining -= 1
-                }else if self.timeRemaining == 0{
-                    ContentView().environmentObject(GlobalState())
-                    points = 0
+                }else{
+                    env.pointsReset()
                 }
             }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(GlobalState())
-//        GameView().environmentObject(GlobalState())
     }
 }
 
-
-
-
-
-
-
-//ZStack{
-//
-//    Color.black
-//        .ignoresSafeArea()
-//    VStack(spacing: 6){
-//        HStack{
-//            Text("Hello")
-//                .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 70, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
-//                .foregroundColor(.green)
-//                .padding(8)
-//        }.background(Color.gray)
-//        HStack{
-//            Text("Hello")
-//                .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 70, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .center)
-//                .foregroundColor(.red)
-//                .padding(8)
-//        }.background(Color.gray)
-//    }
-//}
