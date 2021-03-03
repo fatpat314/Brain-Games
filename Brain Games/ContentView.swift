@@ -22,20 +22,24 @@ struct ContentView: View {
     @State private var isActive : Bool = false
     
     var body: some View {
+
         NavigationView{
             VStack{
-                Text("Does the text of first word match the color in the second word.").multilineTextAlignment(.center)
+                Text("Does the text of first word match the color in the second word.")
+                    .multilineTextAlignment(.center)
+                    .font(.largeTitle)
+                    .foregroundColor(.black)
+                    
                 NavigationLink(destination: GameView().environmentObject(GlobalState()), isActive: $isActive){
                     Text("")
                         .navigationBarTitle("Color Game")
                 }
                 Button("Start Game"){
                     self.isActive = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 58) {
                         self.isActive = false
                     }
                 }
-                
             }
         }
     }
@@ -46,8 +50,9 @@ struct GameView: View {
     @EnvironmentObject var env: GlobalState
     @State var color1 = Int.random(in: 0..<6)
     @State var color2 = Int.random(in: 0..<6)
-    @State private var timeRemaining = 10
+    @State private var timeRemaining = 60
     
+    @State public var showPoints = 0
     @State var isActive: Bool = false
     
     let timer = Timer.publish(every: 1, on: .main, in:
@@ -74,19 +79,21 @@ struct GameView: View {
                         .multilineTextAlignment(.center)
                         .foregroundColor(env.changeBkColor(color: self.color1))
                         .padding(8)
+                        .font(.system(size: 30, weight: .heavy, design: .default))
                         .onAppear{
                             env.wordChoice()
                         }
-                }.background(Color.gray)
+                }.background(Color.white)
                 HStack{
                     Text(env.displayWordBottom)
                         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: 200, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 70, maxHeight: 100, alignment: .center)
                         .foregroundColor(env.changeBkColor(color: self.color2))
                         .padding(8)
+                        .font(.system(size: 30, weight: .heavy, design: .default))
                         .onAppear{
                             env.wordChoice()
                         }
-                }.background(Color.gray)
+                }.background(Color.white)
                 HStack{
                     Button(action: {
                         env.correctAnswerIsYes()
@@ -108,14 +115,16 @@ struct GameView: View {
                 }
             }
             .onReceive(timer) { time in
-                if self.timeRemaining > 0 {
+                if self.timeRemaining == 60{
+                    env.pointsReset()
+                    self.timeRemaining -= 1
+                }else if self.timeRemaining > 0 {
                     self.timeRemaining -= 1
                 }else{
                     env.pointsReset()
                 }
             }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

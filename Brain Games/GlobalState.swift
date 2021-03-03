@@ -14,7 +14,6 @@ class GlobalState: ObservableObject {
     @Published var displayWordBottom: String = ""
     @Published var displayColorTop: String = "blue"
     @Published var points: Int = 0
-    @Published var latestPoints: Int = 0
     
     var correctAnswer: String = ""
 
@@ -42,7 +41,6 @@ class GlobalState: ObservableObject {
     }
     
     func pointsReset(){
-        latestPoints = points
         points = 0
     }
     
@@ -74,8 +72,8 @@ class GlobalState: ObservableObject {
     }
     
     func wordChoice(){
-        let numberTop = Int.random(in: 1..<6)
-        let numberBottom = Int.random(in: 1..<6)
+        let numberTop = Int.random(in: 1..<7)
+        let numberBottom = Int.random(in: 1..<7)
         switch numberTop{
         case 1:
             displayWordTop = "blue"
